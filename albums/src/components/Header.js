@@ -5,11 +5,11 @@ const Header = (props) => {
     const { textStyle, viewStyle } = styles;
 
     return (
-        <View style={ viewStyle }>
-            <Text style={ textStyle }>{ props.text }</Text>
+        <View style={viewStyle}>
+            <Text style={textStyle}>{ props.text }</Text>
         </View>
-    )
-}
+    );
+};
 
 const styles = {
     viewStyle: {
@@ -19,12 +19,13 @@ const styles = {
         alignItems: 'center',
         height: 60,
         shadowColor: '#000',
-        shadowOpacity: .2,
+        shadowOpacity: 0.2,
         shadowOffset: { widht: 0, height: 2 },
         elevation: 2
     },
     textStyle: {
         fontSize: 20
     }
-}
+};
+
 export default Header;
