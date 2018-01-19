@@ -1,12 +1,31 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
+import { Card, CardSection, Input, Button } from './common';
 
 class EmployeeCreate extends Component {
     render() {
         return (
-            <View>
-                <Text>EmployeeCreate</Text>
-            </View>
+            <Card>
+                <CardSection>
+                    <Input
+                        label="Name"
+                        placeholder="Jane"
+                    />
+                </CardSection>
+
+                <CardSection>
+                    <Input
+                        label="Phone"
+                        placeholder="555-555-5555"
+                    />
+                </CardSection>
+
+                <CardSection></CardSection>
+
+                <CardSection>
+                    <Button>Create</Button>
+                </CardSection>
+            </Card>
         );
     }
 }
