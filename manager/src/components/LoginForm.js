@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+import firebase from 'firebase';
 import { emailChanged, passwordChanged, loginUser } from '../actions';
 import { Card, CardSection, Button, Input, Spinner } from './common';
 
 
 class LoginForm extends Component {
+    componentWillMount() {
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                Actions.main();
+            }
+        });
+    }
+
     onEmailChanged(text) {
         this.props.emailChanged(text);
     }
