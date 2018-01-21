@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import { Picker, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { employeeUpdate } from '../actions';
+import { employeeUpdate, employeeCreate } from '../actions';
 import { Card, CardSection, Input, Button } from './common';
 
 class EmployeeCreate extends Component {
+    onSubmit() {
+        const { name, phone, shift, user } = this.props;
+        this.props.employeeCreate({ user, name, phone, shift: shift || 'Monday' });
+    }
+
     renderPickerOptions() {
-        const weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
         return weekDays.map(day => {
             return <Picker.Item label={day} value={day} key={day} />;
@@ -14,7 +19,6 @@ class EmployeeCreate extends Component {
     }
 
     render() {
-        console.log(this.props);
         return (
             <Card>
                 <CardSection>
@@ -30,6 +34,7 @@ class EmployeeCreate extends Component {
                     <Input
                         label="Phone"
                         placeholder="555-555-5555"
+                        keyboardType='phone-pad'
                         value={this.props.phone}
                         onChangeText={text => this.props.employeeUpdate({ prop: 'phone', value: text })}
                     />
@@ -46,7 +51,7 @@ class EmployeeCreate extends Component {
                 </CardSection>
 
                 <CardSection>
-                    <Button>Create</Button>
+                    <Button onPress={this.onSubmit.bind(this)}>Create</Button>
                 </CardSection>
             </Card>
         );
@@ -55,7 +60,8 @@ class EmployeeCreate extends Component {
 
 const mapStateToProps = (state) => {
     const { name, phone, shift } = state.employeeForm;
-    return { name, phone, shift };
+    const { user } = state.auth;
+    return { name, phone, shift, user };
 };
 
-export default connect(mapStateToProps, { employeeUpdate })(EmployeeCreate);
+export default connect(mapStateToProps, { employeeUpdate, employeeCreate })(EmployeeCreate);
