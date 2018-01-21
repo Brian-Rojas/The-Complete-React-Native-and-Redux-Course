@@ -37,10 +37,10 @@ class EmployeeList extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const employees = Object.keys(state.employee).map((id) => {
+    const employees = Object.keys(state.employee).map((uid) => {
         return {
-            ...state.employee[id],
-            id
+            ...state.employee[uid],
+            uid
         };
     });
 
