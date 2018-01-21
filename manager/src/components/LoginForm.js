@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
-import { emailChanged, passwordChanged, loginUser } from '../actions';
+import { emailChanged, passwordChanged, loginUser, loginUserSucess } from '../actions';
 import { Card, CardSection, Button, Input, Spinner } from './common';
 
 
@@ -11,7 +10,7 @@ class LoginForm extends Component {
     componentWillMount() {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                Actions.main();
+                this.props.loginUserSucess(user);
             }
         });
     }
@@ -92,4 +91,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser })(LoginForm);
+export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser, loginUserSucess })(LoginForm);
