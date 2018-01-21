@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Communications from 'react-native-communications';
-import { Card, CardSection, Button } from './common';
-import { employeeUpdate, employeeSave } from '../actions';
+import { Card, CardSection, Button, ConfirmModal } from './common';
+import { employeeUpdate, employeeSave, employeeDelete } from '../actions';
 import EmployeeForm from './EmployeeForm';
 
 class EmployeeEdit extends Component {
+    state = { showModal: false };
+
     componentWillMount() {
         Object.keys(this.props.employee).forEach(key => {
             this.props.employeeUpdate({ prop: key, value: this.props.employee[key] });
@@ -30,6 +32,16 @@ class EmployeeEdit extends Component {
         Communications.textWithoutEncoding(phone, `Your upcoming shift is on ${shift}`);
     }
 
+    onDeclineModal() {
+        this.setState({
+            showModal: false
+        });
+    }
+
+    deleteEmployee() {
+        this.props.employeeDelete(this.props.employee.uid);
+    }
+
     render() {
         return (
             <Card>
@@ -45,6 +57,20 @@ class EmployeeEdit extends Component {
                         Text Schedule
                     </Button>
                 </CardSection>
+
+                <CardSection>
+                    <Button onPress={() => this.setState({ showModal: !this.state.showModal })}>
+                        Fire employee
+                    </Button>
+                </CardSection>
+
+                <ConfirmModal 
+                    visible={this.state.showModal}
+                    onAccept={this.deleteEmployee.bind(this)}
+                    onDecline={this.onDeclineModal.bind(this)}
+                >
+                    Are you sure you want to delete this?
+                </ConfirmModal>
             </Card>
         );
     }
@@ -57,4 +83,4 @@ const mapStateToProps = (state) => {
     return { name, phone, shift, user };
 };
 
-export default connect(mapStateToProps, { employeeUpdate, employeeSave })(EmployeeEdit);
+export default connect(mapStateToProps, { employeeUpdate, employeeSave, employeeDelete })(EmployeeEdit);

@@ -53,3 +53,19 @@ export const employeeSave = ({ name, phone, shift, employeeId, userId }) => {
             });
     };
 };  
+
+export const employeeDelete = (employeeId) => {
+    const currentUser = firebase.auth().currentUser;
+    
+    return (dispatch) => {
+        firebase.database().ref(`/users/${currentUser.uid}/employees/${employeeId}`)
+            .remove()
+            .then(() => {
+                dispatch({
+                    type: EMPLOYEE_SAVE_SUCCESS
+                });
+                
+                Actions.pop();
+            });
+    };
+};
